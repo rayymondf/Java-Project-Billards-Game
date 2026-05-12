@@ -1,39 +1,63 @@
-//Ball class for my pool game
 package project;
 
-import javax.swing.*;
-import java.awt.*;
-
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 
 class Ball {
-    // Position and visual properties
-    double x, y;        // Top-left corner coordinates (Java2D draws from top-left)
-    int radius;         // Radius of the ball
-    Color color;        // Color of the ball
-    
-    // Physics properties
-    double velocityX = 0; // Horizontal velocity (pixels per frame)
-    double velocityY = 0; // Vertical velocity (pixels per frame)
-    double friction = 0.98; // Friction coefficient (2% speed loss per frame)
-    
-    
-    //Purpose: Constructor creates a new ball with specified properties
-    //Pre: double x, double y, int radius, Color color
-    //Post: none
-    public Ball(double x, double y, int radius, Color color) {
+    final BallGroup group;
+    final Color color;
+    final double radius;
+
+    double x;
+    double y;
+    double vx;
+    double vy;
+    boolean pocketed;
+
+    Ball(BallGroup group, Color color, double x, double y, double radius) {
+        this.group = group;
+        this.color = color;
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.color = color;
     }
-    
 
-    //Purpose: Draws the ball on the specified graphics context
-    //Pre: Graphics2D g2d
-    //Post: none
-    public void draw(Graphics2D g2d) {
-        g2d.setColor(color); // Set the drawing color
-        // Draw oval with diameter = radius*2 (Swing draws from top-left with width/height)
-        g2d.fillOval((int)(x), (int)(y), radius*2, radius*2);
+    double speedSquared() {
+        return vx * vx + vy * vy;
+    }
+
+    boolean isMoving(double threshold) {
+        return speedSquared() > threshold * threshold;
+    }
+
+    void stop() {
+        vx = 0;
+        vy = 0;
+    }
+
+    void draw(Graphics2D g2d) {
+        if (pocketed) {
+            return;
+        }
+
+        int diameter = (int) Math.round(radius * 2);
+        int left = (int) Math.round(x - radius);
+        int top = (int) Math.round(y - radius);
+
+        g2d.setColor(group == BallGroup.STRIPE || group == BallGroup.CUE ? Color.WHITE : color);
+        g2d.fillOval(left, top, diameter, diameter);
+
+        if (group == BallGroup.STRIPE) {
+            Shape oldClip = g2d.getClip();
+            g2d.setClip(new Ellipse2D.Double(left, top, diameter, diameter));
+            g2d.setColor(color);
+            g2d.fillRect(left, top + diameter / 5, diameter, diameter * 3 / 5);
+            g2d.setClip(oldClip);
+        }
+
+        g2d.setColor(new Color(20, 20, 20));
+        g2d.drawOval(left, top, diameter, diameter);
     }
 }

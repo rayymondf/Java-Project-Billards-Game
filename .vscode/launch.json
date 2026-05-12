@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run 8-Ball Pool",
+            "request": "launch",
+            "mainClass": "project.Main",
+            "cwd": "${workspaceFolder}",
+            "classPaths": [
+                "${workspaceFolder}/billards/bin"
+            ]
+        }
+    ]
+}

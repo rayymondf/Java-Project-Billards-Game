@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "billards/src"
+    ],
+    "java.project.outputPath": "billards/bin"
+}
