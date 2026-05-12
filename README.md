@@ -2,6 +2,8 @@
 
 A two-player 8-ball billiards game built in Java Swing. The project focuses on core gameplay, smooth 2D physics, clear rules, and simple object-oriented structure.
 
+![Gameplay screenshot of the Java 8-Ball Pool game](docs/gameplay-screenshot.png)
+
 ## Project Overview
 
 This game simulates a basic 8-ball pool match on a digital table. Players take turns aiming and shooting the cue ball, trying to pocket their assigned group before legally pocketing the 8-ball.
